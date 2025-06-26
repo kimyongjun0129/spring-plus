@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.common.exception.ServerException;
 import org.example.expert.domain.user.enums.UserRole;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Key;
 import java.util.Base64;
@@ -62,5 +64,31 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public Long getUserId(String token) {
+        try {
+            String userId = extractClaims(token).getSubject();
+            return Long.parseLong(userId);
+        } catch (NumberFormatException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "잘못된 사용자 ID 형식입니다.");
+        }
+    }
+
+    public UserRole getUserRole(String token) {
+        try {
+            String userRole = extractClaims(token).get("userRole", String.class);
+            return UserRole.of(userRole);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "잘못된 사용자 권한입니다.");
+        }
+    }
+
+    public String getEmail(String token) {
+        String userEmail = extractClaims(token).get("email", String.class);
+        if (userEmail == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 정보가 없습니다.");
+        }
+        return userEmail;
     }
 }

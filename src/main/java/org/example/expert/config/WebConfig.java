@@ -16,11 +16,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final EntityManager entityManager;
 
-    // ArgumentResolver 등록
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthUserArgumentResolver());
-    }
+//    // ArgumentResolver 등록
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//        resolvers.add(new AuthUserArgumentResolver());
+//    }
 
     @Bean
     public JPAQueryFactory jpaQueryFactory() { return new JPAQueryFactory(entityManager); }
