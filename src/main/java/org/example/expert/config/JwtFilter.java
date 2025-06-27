@@ -63,8 +63,9 @@ public class JwtFilter implements Filter {
             Long userId = jwtUtil.getUserId(jwt);
             String email = jwtUtil.getEmail(jwt);
             UserRole userRole = jwtUtil.getUserRole(jwt);
+            String nickname = jwtUtil.getNickname(jwt);
 
-            AuthUser authUser = new AuthUser(userId, email, userRole);
+            AuthUser authUser = new AuthUser(userId, email, userRole, nickname);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     authUser, "", List.of(new SimpleGrantedAuthority("ROLE_" + userRole.name()))

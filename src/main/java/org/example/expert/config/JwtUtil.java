@@ -36,7 +36,7 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(bytes);
     }
 
-    public String createToken(Long userId, String email, String username, UserRole userRole) {
+    public String createToken(Long userId, String email, String username, UserRole userRole, String nickname) {
         Date date = new Date();
 
         return BEARER_PREFIX +
@@ -45,6 +45,7 @@ public class JwtUtil {
                         .claim("email", email)
                         .claim("username", username)
                         .claim("userRole", userRole)
+                        .claim("nickname", nickname)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -86,6 +87,14 @@ public class JwtUtil {
 
     public String getEmail(String token) {
         String userEmail = extractClaims(token).get("email", String.class);
+        if (userEmail == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 정보가 없습니다.");
+        }
+        return userEmail;
+    }
+
+    public String getNickname(String token) {
+        String userEmail = extractClaims(token).get("nickname", String.class);
         if (userEmail == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 정보가 없습니다.");
         }

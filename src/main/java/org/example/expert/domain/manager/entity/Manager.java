@@ -22,8 +22,11 @@ public class Manager {
     @JoinColumn(name = "todo_id", nullable = false)
     private Todo todo;
 
+    private String managerNickname;
+
     public Manager(User user, Todo todo) {
         this.user = user;
         this.todo = todo;
+        this.managerNickname = user.getNickname();
     }
 }
