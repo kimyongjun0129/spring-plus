@@ -16,12 +16,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final EntityManager entityManager;
 
-//    // ArgumentResolver 등록
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-//        resolvers.add(new AuthUserArgumentResolver());
-//    }
-
+    /*
+     * JPAQueryFactory Bean 등록
+     *
+     * QueryDSL을 사용하기 위한 필수 Bean으로, JPAQueryFactory는
+     * QueryDSL의 주요 기능인 동적 쿼리 생성을 위한 객체입니다.
+     */
     @Bean
     public JPAQueryFactory jpaQueryFactory() { return new JPAQueryFactory(entityManager); }
 }

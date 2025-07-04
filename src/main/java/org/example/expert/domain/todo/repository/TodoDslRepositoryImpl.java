@@ -96,5 +96,4 @@ public class TodoDslRepositoryImpl implements  TodoDslRepository {
     private BooleanExpression managerNicknameContains(String nickname) {
         return StringUtils.hasText(nickname) ? todo.managers.any().managerNickname.containsIgnoreCase(nickname) : null;
     }
-
 }

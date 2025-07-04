@@ -42,6 +42,19 @@ public class TodoController {
         return ResponseEntity.ok(todoService.getTodos(page, size, weather, start, end));
     }
 
+    /**
+     * <p>
+     * 특정 조건에 맞는 할 일 목록을 검색합니다.
+     * </p>
+     *
+     * @param page 검색할 페이지 번호
+     * @param size 한 페이지에 포함될 할 일 목록의 수
+     * @param title 할 일 제목
+     * @param start 시작 날짜
+     * @param end 종료 날짜
+     * @param managerName 담당자 이름
+     * @return 조건에 맞는 할 일 목록과 페이징된 결과 {@link Page<TodoSearchResponse>}
+     */
     @GetMapping("/todos/search")
     public ResponseEntity<Page<TodoSearchResponse>> getTodosSearch(
             @RequestParam(defaultValue = "1") int page,
